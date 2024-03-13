@@ -12,7 +12,7 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-
+	"cmp"
 	"image"
 	"strconv"
 
@@ -58,10 +58,10 @@ func main() {
 			if setupFin {
 				//H: 147 S: 189 V: 196
 				//bgr 196 51 184
-
+				//new hsv: 159 105 210
 				iRows, iColumns := img.Rows(), img.Cols()
-				lower := gocv.NewMatWithSizeFromScalar(gocv.NewScalar(137, 100, 100, 0.0), iRows, iColumns, gocv.MatTypeCV8UC3)
-				upper := gocv.NewMatWithSizeFromScalar(gocv.NewScalar(157, 255, 255, 0.0), iRows, iColumns, gocv.MatTypeCV8UC3)
+				lower := gocv.NewMatWithSizeFromScalar(gocv.NewScalar(140, 50, 50, 0.0), iRows, iColumns, gocv.MatTypeCV8UC3)
+				upper := gocv.NewMatWithSizeFromScalar(gocv.NewScalar(169, 255, 255, 0.0), iRows, iColumns, gocv.MatTypeCV8UC3)
 
 				gocv.CvtColor(img, &hsv, gocv.ColorBGRToHSV)
 
@@ -72,6 +72,13 @@ func main() {
 
 				if temp {
 					contours = gocv.FindContours(mask, gocv.RetrievalExternal, gocv.ChainApproxSimple)
+
+					coolList := contours.ToPoints
+
+					fmt.Printf("%#v", coolList)
+
+									
+										
 					for g := 0; g < inputT; g++ {
 
 						spots[g].x = gocv.MinAreaRect(contours.At(g)).Center.X
